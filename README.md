@@ -22,7 +22,11 @@ The basic configuration is:
 scroller.addAnimator({
 	observed: elements,
 	callback: function(el){
+		// here you can add all what you want! 
+		// for example set an attribute
 		el.setAttribute('data-state', 'show');
+		// or add a css class
+		el.classList.add('myNewCssClass');
 	},
 });
 
@@ -52,6 +56,31 @@ Observed and callback are mandatory
 | position | <code>String</code> | <code>"top"</code> if the animation start when the top of the element ( plus the offset ) reach the viewport and <code>"middle"</code> if you want that the animation start when the middle ( plus the offset )  of the element | <code>"top"</code>|
 | offset | <code>number</code> | Pixel offset. | <code>0</code> |
 | callback | <code>function</code> | Total scroll animation duration in milliseconds. ||
+
+
+## Tips
+
+If you want to get all nodes with the same class you can add this simple function:
+```js
+function getElementByClass(className){
+	var elements = document.getElementsByClassName(className);
+	//html collection into array
+	return [].slice.call(elements);
+}
+```
+
+and then
+
+```js
+var elements = getElementByClass('myCssClass');
+
+scroller.addAnimator({
+	observed: elements,
+	callback: function(el){
+		el.setAttribute('data-state', 'show');
+	}
+});
+```
 
 
 ENJOY!
