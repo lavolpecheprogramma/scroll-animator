@@ -41,8 +41,10 @@ scroller.addAnimator({
 });
 
 ```
-##Parameters
+## Parameters
+
 Observed and callback are mandatory
+
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
 | observed | <code>Array</code> | Array of HTML nodes to animate||
