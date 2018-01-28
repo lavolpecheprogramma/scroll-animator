@@ -55,7 +55,7 @@ Observed and callback are mandatory
 | animateOnce | <code>boolean</code> | <code>true</code> if you want to execute the callback only once and <code>false</code> if you want to execute it until the HTML is in the position that you have defined| <code>true</code> |
 | position | <code>String</code> | <code>"top"</code> if the animation start when the top of the element ( plus the offset ) reach the viewport and <code>"middle"</code> if you want that the animation start when the middle ( plus the offset )  of the element | <code>"top"</code>|
 | offset | <code>number</code> | Pixel offset. | <code>0</code> |
-| callback | <code>function</code> | Total scroll animation duration in milliseconds. ||
+| callback | <code>function</code> | Callback function. ||
 
 
 ## Tips
