@@ -52,14 +52,14 @@ ScrollAnimator.prototype.recalculate = function() {
 		for (; j >= 0; j--) {
 			var bc = this.animator[i].observed[j].getBoundingClientRect();
 			this.animator[i].observed[j].ot = (bc.top + this.scrollY) + this.animator[i].offset - this.w_h;
-			switch(this.animator[i].observed[j].position){
+			this.animator[i].observed[j].ob = this.animator[i].observed[j].ot + bc.height + this.w_h;
+			switch(this.animator[i].position){
 				case 'middle':
-					this.animator[i].observed[j].ot += (bc.height/2)
+					this.animator[i].observed[j].ot += (bc.height/2);
 					break;
 			}
 			// bitwise operator >> 0 is faster then parseInt
 			this.animator[i].observed[j].ot = this.animator[i].observed[j].ot >> 0;
-			this.animator[i].observed[j].ob = this.animator[i].observed[j].ot + bc.height + this.w_h;
 			this.animator[i].observed[j].ob = this.animator[i].observed[j].ob >> 0;
 		}
 	}
