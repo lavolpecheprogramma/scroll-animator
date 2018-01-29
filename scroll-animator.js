@@ -1,5 +1,5 @@
 // https://github.com/HenrikJoreteg/extend-object
-function extend(obj){
+function extend(obj) {
 	var arr = [];
 	arr.forEach.call(arr.slice.call(arguments, 1), function(source) {
         if (source) {
@@ -11,7 +11,7 @@ function extend(obj){
     return obj;
 }
 
-function ScrollAnimator(delay){
+function ScrollAnimator(delay) {
 	this.animator = [];
 	this.scrollY = 0;
 	this.delay = delay || 100;
@@ -34,23 +34,22 @@ function ScrollAnimator(delay){
 	window.addEventListener('resize', this.recalculate);
 };
 
-ScrollAnimator.prototype.addAnimator = function(animator){
-	if(animator.observed.length <= 0 || animator.callback == undefined){ return; }
-	
-	var anim = extend({}, this.default, animator);
+ScrollAnimator.prototype.addAnimator = function(animator) {
+	if (animator.observed.length <= 0 || animator.callback == undefined) { return; }
 
-	this.animator.push(anim);
+	this.animator.push(extend({}, this.default, animator));
 	this.recalculate();
 	this.onScroll();
 }
 
-ScrollAnimator.prototype.recalculate = function(){
-	if(this.checkDelay('resize', this.recalculate)){ return; }
+ScrollAnimator.prototype.recalculate = function() {
+	if (this.checkDelay('resize', this.recalculate)) { return; }
 
 	this.w_h = window.innerHeight;
-	
-	for (var i = this.animator.length - 1; i >= 0; i--) {
-		for (var j = 0; j < this.animator[i].observed.length; j++) {
+	var i = this.animator.length - 1;
+	for (; i >= 0; i--) {
+		var j = this.animator[i].observed.length-1;
+		for (; j >= 0; j--) {
 			var bc = this.animator[i].observed[j].getBoundingClientRect();
 			this.animator[i].observed[j].ot = (bc.top + this.scrollY) + this.animator[i].offset - this.w_h;
 			switch(this.animator[i].observed[j].position){
@@ -67,14 +66,14 @@ ScrollAnimator.prototype.recalculate = function(){
 };
 
 ScrollAnimator.prototype.getScrollY = function() {
-    return  window.pageYOffset;
+    return window.pageYOffset;
 }
 
-ScrollAnimator.prototype.checkDelay = function(type, cb){
+ScrollAnimator.prototype.checkDelay = function(type, cb) {
 	clearTimeout(this.timeout[type]);
 
 	var now = Date.now();
-	if ( now - this.lastCall[type] < this.delay ){
+	if ( now - this.lastCall[type] < this.delay ) {
 		this.timeout[type] = setTimeout(cb, this.delay);
 		return true; 
 	};
@@ -84,28 +83,28 @@ ScrollAnimator.prototype.checkDelay = function(type, cb){
 }
 
 ScrollAnimator.prototype.onScroll = function(e){
-	if(this.checkDelay('scroll', this.onScroll)){ return; }
+	if (this.checkDelay('scroll', this.onScroll)) { return; }
 	this.scrollY = this.getScrollY();	
 };
 
 ScrollAnimator.prototype.onRaf = function(){
 	var animatorRunning = false;
-	for (var i = this.animator.length - 1; i >= 0; i--) {
-		for (var j = this.animator[i].observed.length - 1; j >= 0; j--) {
+	var i = this.animator.length - 1;
+	for (; i >= 0; i--) {
+		var j = this.animator[i].observed.length - 1;
+		for (; j >= 0; j--) {
 			animatorRunning = true;
-			if( this.animator[i].observed[j].ot == undefined || 
+			if ( this.animator[i].observed[j].ot == undefined || 
 				this.scrollY < this.animator[i].observed[j].ot ||
 				this.scrollY > this.animator[i].observed[j].ob ) { continue; }
 			
 			this.animator[i].callback(this.animator[i].observed[j]);
-			if(this.animator[i].animateOnce){
+			if (this.animator[i].animateOnce) {
 				this.animator[i].observed.splice(j, 1);
 			}
 		}
 	}
-	if(animatorRunning){
-		requestAnimationFrame(this.onRaf);
-	}
+	if (animatorRunning) { requestAnimationFrame(this.onRaf); }
 }
 
 module.exports = new ScrollAnimator();
