@@ -80,6 +80,9 @@ ScrollAnimator.addAnimator({
 		el.setAttribute('data-state', 'show');
 	}
 });
+
+// start RAF
+ScrollAnimator.onRaf();
 ```
 
 
