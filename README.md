@@ -19,7 +19,7 @@ You can add all "animators" that you want!
 The basic configuration is:
 
 ```js
-scroller.addAnimator({
+ScrollAnimator.addAnimator({
 	observed: elements,
 	callback: function(el){
 		// here you can add all what you want! 
@@ -34,7 +34,7 @@ scroller.addAnimator({
 
 or a complete configuration:
 ```js
-scroller.addAnimator({
+ScrollAnimator.addAnimator({
 	observed: elements,
 	animateOnce: true,
 	position: "top",
@@ -74,7 +74,7 @@ and then
 ```js
 var elements = getElementByClass('myCssClass');
 
-scroller.addAnimator({
+ScrollAnimator.addAnimator({
 	observed: elements,
 	callback: function(el){
 		el.setAttribute('data-state', 'show');
