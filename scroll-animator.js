@@ -45,17 +45,27 @@ ScrollAnimator.prototype.extendConfig = function(userConfig){
 	return newConfig;
 }
 
+ScrollAnimator.prototype.spliceOne = function (arr, index) {
+	var len=arr.length;
+	if (!len) { return }
+	while (index<len) {
+		arr[index] = arr[index+1];
+		index++;
+	}
+	arr.length--;
+}
 
 ScrollAnimator.prototype.recalculate = function(onlyLast) {
 	if (this.checkDelay('resize', this.recalculate)) { return; }
+	this.w_h = window.innerHeight;
 	window.requestAnimationFrame(() => {
 		var i = onlyLast ? this.animator.length - 1 : 0;
 		for (; i <= this.animator.length - 1; i++) {
 			var j = 0;
 			for (; j <= this.animator[i].observed.length-1; j++) {
 				var bc = this.animator[i].observed[j].el.getBoundingClientRect();
-				this.animator[i].observed[j].ot = (bc.top + this.scrollY) - App.w_h;
-				this.animator[i].observed[j].ob = this.animator[i].observed[j].ot + bc.height + App.w_h;
+				this.animator[i].observed[j].ot = (bc.top + this.scrollY) - this.w_h;
+				this.animator[i].observed[j].ob = this.animator[i].observed[j].ot + bc.height + this.w_h;
 				this.animator[i].observed[j].ol = bc.left;
 				this.animator[i].observed[j].or = bc.left + bc.width;
 				this.animator[i].observed[j].bc = bc;
@@ -117,7 +127,7 @@ ScrollAnimator.prototype.onRaf = function(){
 
 			this.animator[i].callback(this.animator[i].observed[j], this.scrollY);
 			if (this.animator[i].animateOnce) {
-				Utils.spliceOne(this.animator[i].observed, j);
+				this.spliceOne(this.animator[i].observed, j);
 			}else{
 				this.animator[i].observed[j].animated = true;
 			}
